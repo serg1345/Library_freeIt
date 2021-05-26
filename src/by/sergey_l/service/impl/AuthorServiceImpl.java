@@ -8,9 +8,14 @@ import by.sergey_l.service.AuthorService;
 import java.util.List;
 
 public class AuthorServiceImpl implements AuthorService {
+    private  AuthorDao authorDao = new AuthorDaoImpl();
     @Override
     public List<Author> getAllAuthors() {
-        AuthorDao authorDao = new AuthorDaoImpl();
         return authorDao.getAllAuthors();
+    }
+
+    @Override
+    public Author getAuthorsByID(int id) {
+        return authorDao.getAuthorById(id);
     }
 }

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BookService {
     List<Book> getAllBooks();
+    void addBook(int bookId, String bookTitle, int authorID);
+    boolean emptyBookId(int bookId);
 }

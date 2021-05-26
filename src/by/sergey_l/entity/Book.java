@@ -13,6 +13,12 @@ public class Book implements Comparable<Book>{
         this.author = author;
     }
 
+    public Book(int id, String title, Author author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+    }
+
     public String getTitle() {
         return title;
     }

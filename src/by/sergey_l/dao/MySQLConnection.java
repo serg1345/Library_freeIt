@@ -1,6 +1,5 @@
 package by.sergey_l.dao;
 
-
 import java.sql.*;
 
 public class MySQLConnection {

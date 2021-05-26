@@ -1,11 +1,13 @@
 package by.sergey_l.entity;
 
+import com.sun.org.apache.bcel.internal.classfile.Unknown;
+
 public enum Genre {
     MYSTERY ("Мистика"),
     FANTASY ("Фантастика"),
     HORROR ("Ужасы"),
-    NOVEL ("Роман");
-
+    NOVEL ("Роман"),
+    UNKNOWN ("неизвестен");
     private String title;
 
     Genre(String title) {

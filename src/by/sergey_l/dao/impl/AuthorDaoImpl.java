@@ -43,10 +43,14 @@ public class AuthorDaoImpl implements AuthorDao {
             String sql = "SELECT * FROM author WHERE id=" + id + ";";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            resultSet.next();
-            String firstName = resultSet.getString(2);
-            String lastName = resultSet.getString(3);
-            author = new Author(id, firstName, lastName);
+            if (resultSet.isBeforeFirst()) {
+                resultSet.next();
+                String firstName = resultSet.getString(2);
+                String lastName = resultSet.getString(3);
+                author = new Author(id, firstName, lastName);
+            } else {
+                return author;
+            }
         } catch (Exception ex) {
             System.out.println("Connection failed...");
             System.out.println(ex);

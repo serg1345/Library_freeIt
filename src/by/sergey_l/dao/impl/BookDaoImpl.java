@@ -16,8 +16,15 @@ import java.util.List;
 
 public class BookDaoImpl implements BookDao {
     @Override
-    public void addBook(Book book) {
-
+    public void addBook(int bookId, String bookTitle, int authorId) {
+        try (Connection connection = MySQLConnection.getConnection()) {
+            String sql = "INSERT INTO book (`id`, `book_name`, `author_id`) VALUES ('" + bookId + "', '" + bookTitle + "', '" + authorId + "');";
+            connection.createStatement().executeUpdate(sql);
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+        System.out.println("Книга добавлена");
     }
 
     @Override
@@ -34,8 +41,12 @@ public class BookDaoImpl implements BookDao {
                 AuthorDao authorDao = new AuthorDaoImpl();
                 Author author = authorDao.getAuthorById(authorId);
                 int genreId = resultSet.getInt(4);
-                GenreDao genreDao = new GenreDaoImpl();
-                Genre genre = genreDao.getGenreById(genreId);
+                Genre genre;
+                if (genreId == 0) {
+                    genre = Genre.UNKNOWN;
+                } else {
+                    genre = new GenreDaoImpl().getGenreById(genreId);
+                }
                 books.add(new Book(id, bookName, genre, author));
             }
         } catch (Exception ex) {
@@ -59,4 +70,24 @@ public class BookDaoImpl implements BookDao {
     public void editBook(Book book) {
 
     }
+
+    @Override
+    public boolean emptyBookId(int bookId) {
+        try (Connection connection = MySQLConnection.getConnection()) {
+            String sql = "SELECT * FROM book WHERE id=" + bookId + ";";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.isBeforeFirst()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+        return false;
+    }
+
+
 }

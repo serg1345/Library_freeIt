@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class Application {
+    BookService bookService = new BookServiceImpl();
     private int menu() {
         int selection = 0;
         System.out.println("1. Показать все книги.");
@@ -14,6 +15,7 @@ public class Application {
         System.out.println("3. Удалить книгу.");
         System.out.println("4. Изменить книгу.");
         System.out.println("5. Выход");
+        System.out.print(">> ");
         Scanner sc = new Scanner(System.in);
         boolean done = false;
         while (!done) { //этим циклом заставлеям ввести число от 1 до 5
@@ -41,7 +43,6 @@ public class Application {
             sc.next();
         }
         selection = sc.nextInt();
-        BookService bookService = new BookServiceImpl();
         switch (selection) {
             case 1: {
                 bookService.getAllBooks().stream().sorted().forEach(System.out :: println);
@@ -58,6 +59,29 @@ public class Application {
         }
     }
 
+    private void addBook() {
+        int bookID;
+        String bookTitle;
+        int authorID;
+        System.out.println("Введите id новой книги >> ");
+        Scanner sc = new Scanner(System.in).useDelimiter("\n");
+        while (!sc.hasNextInt()) {
+            System.out.print("Ваш ввод не корректен, повторите >> ");
+            sc.next();
+        }
+        bookID = sc.nextInt();
+        System.out.println("Введите название книги >> ");
+        bookTitle = sc.next();
+        System.out.println("Введите id автора >> ");
+        while (!sc.hasNextInt()) {
+            System.out.print("Ваш ввод не корректен, повторите >> ");
+            sc.next();
+        }
+        authorID = sc.nextInt();
+
+        bookService.addBook(bookID, bookTitle, authorID);
+    }
+
     public void start() {
         boolean exit = false;
         int selection;
@@ -70,7 +94,7 @@ public class Application {
                     break;
                 }
                 case 2: {
-                    System.out.println("функциональность в процессе разработки");
+                    addBook();
                     break;
                 }
                 case 3: {
